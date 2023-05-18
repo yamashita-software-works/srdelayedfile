@@ -1,0 +1,64 @@
+TARGETTYPE=PROGRAM
+TARGETNAME=srdelayedfile
+TARGETPATH=obj
+UMENTRY=wmain
+UMTYPE=console
+
+_NT_TARGET_VERSION=$(_NT_TARGET_VERSION_VISTA)
+
+#
+# post build command (run update.bat)
+#
+
+
+!if "$(_BUILDARCH)" == "IA64"
+_ARCHFOLDER="ia64"
+!else if "$(_BUILDARCH)" == "AMD64"
+_ARCHFOLDER="amd64"
+!else if "$(_BUILDARCH)" == "x86"
+_ARCHFOLDER="x86"
+!endif
+_OUT_PATH=obj$(BUILD_ALT_DIR)\$(TARGET_DIRECTORY)\$(TARGETNAME)
+_UPDATE_PARAM=$(_OUT_PATH) $(_ARCHFOLDER) $(DDKBUILDENV)
+POST_BUILD_CMD=update.bat $(_UPDATE_PARAM)
+
+#
+# Windows SDK7.1 (for XMLLite)
+#
+SDK_INC_PATH_WIN7=C:\WinSDK\7.1\Include
+
+!if $(AMD64)
+SDK_LIB_PATH_WIN7=C:\WinSDK\7.1\Lib\x64
+!else
+SDK_LIB_PATH_WIN7=C:\WinSDK\7.1\Lib
+!endif
+
+#
+# build parameter
+#
+USE_MSVCRT=1
+USE_NATIVE_EH=1
+
+INCLUDES=$(DDK_INC_PATH)
+INCLUDES=$(INCLUDES);$(SDK_INC_PATH_WIN7)
+
+C_DEFINES=$(C_DEFINES) -DUNICODE -D_UNICODE
+
+SOURCES=\
+	srdelayedfile.cpp\
+	createdelayedfile.cpp\
+	dumpdelayedfile.cpp\
+	setupdelayedfile.cpp\
+	statusdelayedfile.cpp\
+	xmlfilereader.cpp\
+	usage.cpp\
+	mem.cpp\
+	misc.cpp\
+	srdelayedfile.rc
+
+LINKLIBS=\
+	$(DDK_LIB_PATH)\ntdll.lib\
+	$(DDK_LIB_PATH)\user32.lib\
+	$(DDK_LIB_PATH)\comctl32.lib\
+	$(DDK_LIB_PATH)\shlwapi.lib\
+	$(SDK_LIB_PATH_WIN7)\xmllite.lib
