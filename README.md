@@ -149,6 +149,32 @@ Srdelayed.exeの遅延操作ファイルを作成する為のノードセクシ�
    Windowsの起動時にSrdelayed.exeが実行された時、エラーが検出された場合、その内容をレジストリに書き込みます。
 
 
+## Srdelayed.exeを実行する
+Srdelayed.exeはNTネィティブ実行ファイルであるため、通常は前述の様にレジストリに登録してWindowsシステムが実行しますが、
+[FSWorkbench](https://github.com/yamashita-software-works/FSWorkbench-Preview-Releases)
+を使用して実行することもできます。ただし、その際実行される遅延操作ファイル内容は、
+当然ながら使用されているファイルの移動や削除はできません。また、FSWorkbenchは管理者モードで実行する必要があります。   
+   
+FSWorkbenchでNTネイティブ実行ファイルを実行するには、現状ではパラメータの指定方法がWin32と異なるため注意が必要です。
+   
+
+1. FSWorkbenchを起動し、メニューの\[ツール\]>\[実行ファイルを実行\]を選択します。
+
+1. ダイアログボックスに以下の画像を参考にパラメータを入力します。
+
+   ![FSWorkbench Run NT Native exe](img/run_native_exe_with_fsworkbench.png)
+
+    - アプリケーション名に、プレフィックス"\\??\\"を付けて Srdelayed.exeのパスを指定します。
+    - コマンドラインに上記のSrdelayed.exeのパスを指定し、続けてスペースを空けて操作遅延ファイルのパスを指定します。どちらも必ず"\\??\\"プレフィックスを付けます。この二つのパラメータはmain関数の argv[0]とargv[1]に相当します。
+    - \[NTネイティブの実行ファイルを実行する\]にチェックを入れます。    
+    
+    ※ "\\??\\"プレフィックスはNTオブジェクトネームスペース内のDOSネームスペースルートを示します。
+1. \[実行\]をクリックします。    
+   エラーメッセージボックスが表示されなければ実行された筈です。UIは特に表示されないので、操作遅延ファイルの操作結果を確認するか、タスクマネージャなどで実行を確認します。
+
+[FSWorkbench（プレビュー版）はこちらから](https://github.com/yamashita-software-works/FSWorkbench-Preview-Releases)
+
+
 ## Build方法
 
 ### 開発環境
