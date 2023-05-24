@@ -1,0 +1,7 @@
+
+usage:
+
+    srdelayedfile -i xmlfile -o delayedoperationsfile [-f]
+    srdelayedfile -d delayedoperationsfile
+    srdelayedfile --setup delayedoperationsfile
+    srdelayedfile --lasterror
