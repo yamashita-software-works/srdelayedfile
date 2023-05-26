@@ -150,7 +150,7 @@ Srdelayed.exeの遅延操作ファイルを作成する為のノードセクシ�
 
 
 ## Srdelayed.exeを実行する
-Srdelayed.exeはNTネィティブ実行ファイルであるため、通常は前述の様にレジストリに登録してWindowsシステムが実行しますが、
+Srdelayed.exeはNTネイティブ実行ファイルであるため、通常は前述の様にレジストリに登録してWindowsシステムが実行しますが、
 [FSWorkbench](https://github.com/yamashita-software-works/FSWorkbench-Preview-Releases)
 を使用して実行することもできます。ただし、その際実行される遅延操作ファイル内容は、
 当然ながら使用されているファイルの移動や削除はできません。また、FSWorkbenchは管理者モードで実行する必要があります。   
@@ -172,7 +172,7 @@ FSWorkbenchでNTネイティブ実行ファイルを実行するには、現状�
 1. \[実行\]をクリックします。    
    エラーメッセージボックスが表示されなければ実行された筈です。UIは特に表示されないので、操作遅延ファイルの操作結果を確認するか、タスクマネージャなどで実行を確認します。
 
-[FSWorkbench（プレビュー版）はこちらから](https://github.com/yamashita-software-works/FSWorkbench-Preview-Releases)
+[FSWorkbench（プレビュー版）はこちらから](https://github.com/yamashita-software-works/FSWorkbench-Preview-Releases/releases)
 
 
 ## Build方法
@@ -184,11 +184,14 @@ https://www.microsoft.com/en-us/download/details.aspx?id=11800
 
 https://www.microsoft.com/en-us/download/details.aspx?id=8442
 
+>ISOファイルを使ってSDKをインストールする場合、プラットフォームごとに異なるので注意してください。   
+>64bit環境にインストールする時は GRMSDKX_EN_DVD.iso を、
+>32bit環境にインストールする時は GRMSDK_EN_DVD.iso をダウンロードしてください。
+>適合しないファイルを使用するとエラーとなりインストールできません。
 
-現在のビルド環境は、上記WDKとSDKが以下の位置にインストールされている前提になっているので下記の場所へインストールしてください。
 
-> **Warning**   
-sourcesファイル内に記述されたWDK/SDKルートパスがハードコードされているためです。
+
+現在のビルド環境は、上記WDKとSDKが以下の場所にインストールされている前提になっています。WDKはデフォルトで下記の場所になっていますが、SDKのデフォルトは異なっているので注意してください。
 
 WDK   
 `C:\WinDDK\7600.16385.1`
@@ -196,20 +199,33 @@ WDK
 SDK   
 `C:\WinSDK\7.1`
 
-別の場所にインストールされている場合は、その場所へのリンクを持つ上記パスと同じ名前のシンボリックリンクディレクトリ
-（ジャンクションポイント）をC:ドライブのルートに作成してください。
+もし別の場所にインストールされている場合は、その場所へのリンクを持つ上記パスと同じ名前のジャンクションポイントをC:ドライブのルートに作成すると便利です。
 
 例)
-`C:\WinDDK\7600.16385.1 -> C:\Program Files\Windows Driver Kit 7.1.0`
+`C:\WinSDK\7.1 -> C:\Program Files\Microsoft SDKs\v7.1`
 
-独自のインストール先を設定したい場合は、sourcesファイルの内容を編集する必要があります。
+>**Warning**   
+>現状、ビルドに使用するsourcesファイル内に記述されたWDK/SDKルートパスがハードコードされているためです。
+>独自のインストール先を設定したい場合は、sourcesファイルを編集して当該パスを調整する必要があります。
+>編集する場合、sourcesファイルに記述するパスにはスペースを含めないでください。
 
-> **Warning**   
-sourcesファイルに記述するパスにはスペースを含めないでください。
+> **Note**   
+>SDKのセットアップは、マウントされた(またはCD/DVD)ドライブのルートにあるsetup.exeではなく、Setupフォルダ下のSDKSetup.exe を実行してください。   
+> `\Setup\SDKSetup.exe`
+>
+>
+>もしインストール時にエラーが発生した場合は、以下のVS2010再頒布モジュールをアンインストールしてから再度試してみてください。
+>
+>`Microsoft Visial C++ 2010 x86 Redistributable - 10.0.xxxxx`   
+>`Microsoft Visial C++ 2010 x64 Redistributable - 10.0.xxxxx`
+
+> **Note**   
+>SDKから最低限必要なものは、ヘッダファイルとライブラリファイルのみです。コンパイラやツールは不要です。
+
 
 <br>
 
-### ビルド手順
+### ビルド方法
 スタートメニューの以下の項目を開きます。
 
 `Windows Driver Kits > WDK 7600.16385.1 > Build Environments>Windows 7`
@@ -223,12 +239,13 @@ sourcesファイルに記述するパスにはスペースを含めないでく�
 のどちらかを開きます。
 
 > **Warning**   
-Windows 10の目的の環境を開けない場合があります。その場合はスタートメニューからではなく、直接目的のビルド環境のシェルリンクファイルを開いてください。
+Windows 10ではスタートメニュー(Windows Driver Kits)から適切な開発環境を選べない場合があります（シェルリンク名が同じであるため）。
+正しく選択できない場合は、シェルリンクがあるスタートアップメニューのフォルダを開いて直接選択してください。
 
 <br>
-
-コマンドプロンプトが開くので、ソースの展開先ディレクトリへ移動して、以下の`build`コマンドを実行します。
-
+コマンドプロンプトが開くので、ソースの展開先ディレクトリへ移動して、以下のbuildコマンドを実行します。
+<br>
+<br>
 
     build -c
 
