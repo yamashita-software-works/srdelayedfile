@@ -52,7 +52,7 @@ https://learn.microsoft.com/en-us/windows/win32/backup/srdelayed-exe
    ````
 
 1. 作成した遅延操作ファイルをレジストリに登録する。   
-   __※この手順は管理者モードで実行する必要があります。__  レジストリエディタを使ってエントリを作成して登録することもできます。
+   __※この手順は管理者モードで実行する必要があります。__  レジストリエディタを使い下記エントリを手作業で作成して登録することもできます。
 
    ````
    srdelayedfile --setup <遅延操作ファイル>
@@ -108,7 +108,7 @@ Srdelayed.exeの遅延操作ファイルを作成する為のノードセクシ�
     </DeleteFile>
 ~~~
 #### SetShortName
-短い名前を設定します。ShortNamdeで指定した名前をPathで指定したファイルに適用します。
+短い名前を設定します。ShortNamdeで指定した名前をPathで指定したファイルに適用します。   
 例）
 ~~~xml
     <SetShortName>
