@@ -151,7 +151,7 @@ Srdelayed.exeの遅延操作ファイルを作成する為のノードセクシ�
 
 ## Srdelayed.exeを実行する
 Srdelayed.exeはNTネイティブ実行ファイルであるため、通常は前述の様にレジストリに登録してWindowsシステムが実行しますが、
-[FSWorkbench](https://github.com/yamashita-software-works/FSWorkbench-Preview-Releases)
+[FSWorkbench](https://github.com/yamashita-software-works/FSWorkbench)
 を使用して実行することもできます。ただし、その際実行される遅延操作ファイル内容は、
 当然ながら使用されているファイルの移動や削除はできません。また、FSWorkbenchは管理者モードで実行する必要があります。   
    
@@ -172,7 +172,7 @@ FSWorkbenchでNTネイティブ実行ファイルを実行するには、現状�
 1. \[実行\]をクリックします。    
    エラーメッセージボックスが表示されなければ実行された筈です。UIは特に表示されないので、操作遅延ファイルの操作結果を確認するか、タスクマネージャなどで実行を確認します。
 
-[FSWorkbench（プレビュー版）はこちらから](https://github.com/yamashita-software-works/FSWorkbench-Preview-Releases/releases)
+[FSWorkbenchはこちらから](https://github.com/yamashita-software-works/FSWorkbench/releases)
 
 
 ## Build方法
